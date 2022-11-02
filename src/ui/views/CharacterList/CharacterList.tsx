@@ -10,6 +10,14 @@ const CharacterList = () => {
   const [characters, setCharacters] = useState([])
   const { loading, data } = useQuery(GET_ALL_CHARACTERS)
 
+  const headerProps = {
+    navigation: {
+      label: 'Go to Search',
+      path: '/search',
+    },
+    title: 'SW Media',
+  }
+
   useEffect(() => {
     if (data) {
       const { allPeople: { people } } = data
@@ -19,7 +27,7 @@ const CharacterList = () => {
 
   return (
     <main>
-      <Header title="SWApi List" />
+      <Header {...headerProps} />
       {loading && <Spinner />}
       {characters.map((character: CharacterDTO) => <Card character={characterMapper(character)} key={character.id} />)}
     </main>

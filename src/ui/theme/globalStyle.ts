@@ -17,8 +17,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     --border-radius: ${rem(3)};
     --color-bg-alt: rgb(52, 93, 138);
-    --color-bg-default: rgb(255,255,255);
     --color-accent: rgb(182, 64, 99);
+    --color-default: rgb(255,255,255);
     --color-neutral-lighter: rgb(245,245,245);
     --color-neutral-light: rgb(225,225,225);
     --color-neutral-mid: rgb(180,180,180);
@@ -34,11 +34,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: var(--color-accent);
-
-    :hover {
-      color: var(--color-accent-dark);
-    }
+    transition: color 0.2s ease-in-out;
   }
 
   input:focus-visible {
