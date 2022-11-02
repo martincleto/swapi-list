@@ -50,6 +50,21 @@ const GlobalStyle = createGlobalStyle`
     padding: ${rem(98)} ${rem(16)} ${rem(24)};
   }
 
+  .no-results {
+    text-align: center;
+    width: 100%;
+
+    img {
+      border-radius: 50%;
+      display: block;
+      height: ${rem(120)};
+      margin: 0 auto ${rem(16)} auto;
+      object-fit: cover;
+      opacity: 0.75;
+      width: ${rem(120)};
+    }
+  }
+
   @media (min-width: ${BREAKPOINT_MEDIUM}px) {
     main {
       flex-direction: row;

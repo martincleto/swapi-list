@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useEffect } from 'react'
+import { useLazyQuery } from '@apollo/client'
 
-import { CharacterDTO } from '@/apptypes'
+import { Character, CharacterDTO } from '@/apptypes'
 import { GET_ALL_CHARACTERS} from '@/infrastructure/services/api/queries'
 import { characterMapper } from '@/infrastructure/services/mappers/characterMapper'
+import { useApp } from '@/ui/context/AppContext'
 import { Card, Header, Spinner } from '@/ui/components'
 
 const CharacterList = () => {
-  const [characters, setCharacters] = useState([])
-  const { loading, data } = useQuery(GET_ALL_CHARACTERS)
+  const [fetchCharacters, { loading, data }] = useLazyQuery(GET_ALL_CHARACTERS)
+
+  const { characters, setCharacters } = useApp()
 
   const headerProps = {
     navigation: {
@@ -19,17 +21,24 @@ const CharacterList = () => {
   }
 
   useEffect(() => {
+    if (!characters?.length) fetchCharacters()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [characters])
+
+  useEffect(() => {
     if (data) {
       const { allPeople: { people } } = data
-      setCharacters(people)
+      const normalizedCharacters = people.map((character: CharacterDTO) => characterMapper(character))
+      setCharacters && setCharacters(normalizedCharacters)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   return (
     <main>
       <Header {...headerProps} />
       {loading && <Spinner />}
-      {characters.map((character: CharacterDTO) => <Card character={characterMapper(character)} key={character.id} />)}
+      {characters?.map((character: Character) => <Card character={character} key={character.id} />)}
     </main>
   )
 }
