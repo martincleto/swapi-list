@@ -24,9 +24,11 @@ const GlobalStyle = createGlobalStyle`
     --color-neutral-mid: rgb(180,180,180);
     --color-neutral-dark: rgb(50,50,50);
 
-    background: var(--color-bg-default);
-    font-family: 'Inter', Helvetica, sans-serif;
+    background: var(--color-neutral-lighter);
+    color: var(--color-neutral-dark);
+    font-family: 'Montserrat', Helvetica, sans-serif;
     font-size: 16px;
+    font-weight: 400;
     padding: 0;
     margin: 0;
   }
@@ -44,11 +46,17 @@ const GlobalStyle = createGlobalStyle`
   }
 
   main {
-    padding: ${rem(72)} ${rem(16)} ${rem(24)};
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: ${rem(16)};
+    justify-content: space-between;
+    padding: ${rem(98)} ${rem(16)} ${rem(24)};
   }
 
   @media (min-width: ${BREAKPOINT_MEDIUM}px) {
     main {
+      flex-direction: row;
       max-width: ${rem(960)};
       margin: auto;
     }
