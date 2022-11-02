@@ -11,7 +11,7 @@ const mockCharacter = {
 }
 
 describe('Card', () => {
-  test('should show birth year, homeworld and name of a character', () => {
+  test('should show the character data', () => {
     render(<Card character={mockCharacter} />)
 
     const { birthYear, homeworld, name, species } = mockCharacter
