@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 import { rem } from 'polished'
 
-import { BREAKPOINT_MEDIUM } from '@/config'
+import { LAYOUT } from '@/config'
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -65,10 +65,10 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  @media (min-width: ${BREAKPOINT_MEDIUM}px) {
+  @media (min-width: ${LAYOUT.BREAKPOINT_MEDIUM}px) {
     main {
       flex-direction: row;
-      max-width: ${rem(960)};
+      max-width: ${rem(LAYOUT.CONTENT_MAX_WIDTH)};
       margin: auto;
     }
   }

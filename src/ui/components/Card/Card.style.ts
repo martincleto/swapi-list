@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { rem } from 'polished'
 
-import { BREAKPOINT_MEDIUM } from '@/config'
+import { LAYOUT } from '@/config'
 
 const cardSpace = 8
 const columnGap = 16  + cardSpace * 2
@@ -29,7 +29,7 @@ export const StyledCard = styled.article`
     margin: 0;
   }
 
-  @media (min-width: ${BREAKPOINT_MEDIUM}px) {
+  @media (min-width: ${LAYOUT.BREAKPOINT_MEDIUM}px) {
     min-width: calc(33.6% - ${rem(columnGap)});
   }
 `
