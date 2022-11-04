@@ -1,39 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useLazyQuery } from '@apollo/client'
 
 import { Character, CharacterDTO } from '@/apptypes'
+import { FILTER_DEBOUNCE_TIME } from '@/config'
 import { GET_ALL_CHARACTERS } from '@/infrastructure/services/api/queries'
 import { characterMapper } from '@/infrastructure/services/mappers/characterMapper'
-import { useApp } from '@/ui/context/AppContext'
 import stormtrooper from '@/ui/assets/images/stormtrooper.png'
+import { useApp } from '@/ui/context/AppContext'
+import useFilters from '@/ui/hooks/useFilters'
+import { debounce, filterByKey } from '@/ui/util'
 import { Card, Header, Search } from '@/ui/components'
 
 import { StyledCharacterSearch, StyledFilters } from './CharacterSearch.style'
 
 const CharacterSearch = () => {
-  const { characters } = useApp()
-  const [currentCharacters, setCurrentCharacters] = useState(characters)
+  const { characters, setCharacters } = useApp()
   const [fetchCharacters, { data }] = useLazyQuery(GET_ALL_CHARACTERS)
-
-  // @TODO refactor to avoid duplicated logic in the views
-  useEffect(() => {
-    if (!currentCharacters?.length) fetchCharacters()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCharacters])
-
-  useEffect(() => {
-    if (data) {
-      const { allPeople: { people } } = data
-      const normalizedCharacters = people.map((character: CharacterDTO) => characterMapper(character))
-      setCurrentCharacters(normalizedCharacters)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
-
-  const handleOnSearch = (algo: string) => {
-    console.log(algo)
-  }
-
+  const { models, operations } = useFilters()
+  
   const headerProps = {
     navigation: {
       label: 'Go to Media',
@@ -42,6 +26,41 @@ const CharacterSearch = () => {
     title: 'SW Search',
   }
 
+  const updateSearchFilter = (match?: string) => {
+    const payload = match
+      ? filterByKey({
+        key: 'name',
+        match,
+        source: characters as never[]
+      })
+      : characters
+    operations.updateFilter('search', payload as Character[])
+  }
+
+  const handleOnSearch = (match: string) => {
+    debounce(() => {
+      updateSearchFilter(match)
+    }, FILTER_DEBOUNCE_TIME)
+  }
+
+  useEffect(() => {
+    if (!characters?.length) {
+      fetchCharacters()
+    } else {
+      updateSearchFilter()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [characters])
+
+  useEffect(() => {
+    if (data) {
+      const { allPeople: { people } } = data
+      const normalizedCharacters = people.map((character: CharacterDTO) => characterMapper(character))
+      setCharacters && setCharacters(normalizedCharacters)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
+
   return (
     <StyledCharacterSearch>
       <Header {...headerProps}>
@@ -49,8 +68,8 @@ const CharacterSearch = () => {
           <Search placeholder="Type here to filter by name" onSearch={handleOnSearch}/>
         </StyledFilters>
       </Header>
-      {!!currentCharacters?.length
-        ? currentCharacters.map((character: Character) => <Card character={character} key={character.id} />)
+      {!!models.filters.search?.length
+        ? models.filters.search.map((character: Character) => <Card character={character} key={character.id} />)
         : <p className='no-results'><img src={stormtrooper} alt="Stormtrooper" />These aren't the droids you're looking for.</p>
       }
     </StyledCharacterSearch>

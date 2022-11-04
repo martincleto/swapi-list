@@ -1,3 +1,5 @@
+import { SEARCH_MIN_CHARS } from '@/config'
+
 import { StyledSearch } from './Search.style'
 
 interface SearchProps {
@@ -6,7 +8,7 @@ interface SearchProps {
   onSearch: (value: string) => void
 }
 
-const Search: React.FC<SearchProps> = ({ minChars = 3, placeholder = 'Type to search', onSearch }) => {
+const Search: React.FC<SearchProps> = ({ minChars = SEARCH_MIN_CHARS, placeholder = 'Type to search', onSearch }) => {
   const handleOnChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = evt.target
     const shouldCallback = value.length >= minChars || value.length === 0
