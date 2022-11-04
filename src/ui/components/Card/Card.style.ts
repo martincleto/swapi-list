@@ -13,17 +13,16 @@ export const StyledCard = styled.article`
   box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.3);
   padding: ${rem(cardSpace)};
 
-  .card__title,
-  .card__item {
+  h2, li {
     margin: 0 0 ${rem(cardSpace)};
   }
 
-  .card__title {
+  h2 {
     font-size: ${rem(22)};
     font-weight: 500;
   }
 
-  .card__content {
+  ul {
     list-style: none;
     padding: 0 0 0 ${rem(16)};
     margin: 0;

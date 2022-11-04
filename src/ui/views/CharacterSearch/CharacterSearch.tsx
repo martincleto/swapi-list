@@ -70,7 +70,7 @@ const CharacterSearch = () => {
       </Header>
       {!!models.filters.search?.length
         ? models.filters.search.map((character: Character) => <Card character={character} key={character.id} />)
-        : <p className='no-results'><img src={stormtrooper} alt="Stormtrooper" />These aren't the droids you're looking for.</p>
+        : <p role="complementary"><img src={stormtrooper} alt="Stormtrooper" />These aren't the droids you're looking for.</p>
       }
     </StyledCharacterSearch>
   )
