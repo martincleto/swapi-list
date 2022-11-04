@@ -5,6 +5,10 @@ import { LAYOUT } from '@/config'
 
 export const StyledCharacterSearch = styled.main`
   padding-top: ${rem(132)};
+
+  @media (min-width: ${LAYOUT.BREAKPOINT_MEDIUM}px) {
+    padding-top: ${rem(98)};
+  }
 `
 
 export const StyledFilters = styled.div`

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useLazyQuery } from '@apollo/client'
 
 import { Character, CharacterDTO } from '@/apptypes'
-import { GET_ALL_CHARACTERS} from '@/infrastructure/services/api/queries'
+import { GET_ALL_CHARACTERS } from '@/infrastructure/services/api/queries'
 import { characterMapper } from '@/infrastructure/services/mappers/characterMapper'
 import { useApp } from '@/ui/context/AppContext'
 import { Card, Header, Spinner } from '@/ui/components'
